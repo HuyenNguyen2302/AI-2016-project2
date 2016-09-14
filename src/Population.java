@@ -6,18 +6,18 @@ public class Population{
 	
 	ArrayList<Individual> individualSet;
 	int numOfAvailableActions;
-	int size;
+	int initialSize;
 	
 	public Population(int numOfAvailableActions){
 		this.numOfAvailableActions = numOfAvailableActions;
 		
 		Random rand = new Random(); 
-		this.size = rand.nextInt(MAX_POPULATION_SIZE)+1; 
-		individualSet = new ArrayList<Individual>(this.size);
+		this.initialSize = rand.nextInt(MAX_POPULATION_SIZE)+1; 
+		individualSet = new ArrayList<Individual>(this.initialSize);
 	}
 	
 	public void initialize(){
-		for(int i = 0; i < MAX_POPULATION_SIZE; i++){
+		for(int i = 0; i < this.initialSize; i++){
 			Individual temp_individual = new Individual();
 			temp_individual.generate(this.numOfAvailableActions);
 			individualSet.add(temp_individual);
@@ -25,8 +25,11 @@ public class Population{
 	}
 
 	public void add(Individual child) {
-		this.individualSet.add(child);
-		
+		this.individualSet.add(child);	
+	}
+	
+	public int getCurrentSize(){
+		return this.individualSet.size();
 	}
 
 }

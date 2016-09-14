@@ -48,8 +48,8 @@ public class Main {
 			break;
 		case "genetic":
 			GeneticAlgorithm ga = new GeneticAlgorithm(time, startingVal, targetVal, actions);
-			Individual best = ga.geneticSearch();		
-			best.print();
+			ga.geneticSearch();		
+			ga.printBestIndividual();
 			break;
 		}
 		//		ItrDpStateNodeStack searchResult = sm.search();

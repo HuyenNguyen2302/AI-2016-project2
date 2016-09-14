@@ -2,11 +2,13 @@ import java.util.List;
 import java.util.Random;
 
 public class GeneticAlgorithm extends Algorithm {
-public static final int CUT_POINT_INDEX = 3;
-public static final int MUTATION_PROBABILITY = 50;
+	public static final int CUT_POINT_INDEX = 3;
+	public static final int MUTATION_PROBABILITY = 50;
+	public Individual bestIndividual;
+
 	public GeneticAlgorithm(double time, double startingVal, double targetVal, List<Action> actions) {
 		super(time, startingVal, targetVal, actions);
-		// TODO Auto-generated constructor stub
+		this.bestIndividual = null;
 	}
 
 	@Override
@@ -14,16 +16,16 @@ public static final int MUTATION_PROBABILITY = 50;
 
 		return null;
 	}
-	public Individual geneticSearch(){
+	public void geneticSearch(){
 		Population population = new Population(this.problem.actions.size());
 		population.initialize();
-		return geneticAlgorithm(population);
+		this.bestIndividual = geneticAlgorithm(population);
 	}
 
 	public Individual geneticAlgorithm(Population population){
-		while(!fit(population)){
+		while(!fit(population) && population.getCurrentSize() > 1){
 			Population new_population = new Population(this.problem.actions.size());
-			for(int i = 0; i < new_population.size; i++){
+			for(int i = 0; i < new_population.initialSize; i++){
 				Individual x = randomSelection(population);
 				Individual y = randomSelection(population);
 				Individual child = reproduce(x,y);
@@ -40,7 +42,7 @@ public static final int MUTATION_PROBABILITY = 50;
 	private Individual findBest(Population population) {
 		double bestVal = 999;
 		Individual bestIndividual = null;
-		for(int i = 0; i < population.size; i++){
+		for(int i = 0; i < population.initialSize; i++){
 			Individual currIndividual = population.individualSet.get(i);
 			double currVal = evaluateState(currIndividual);
 			double difference = Math.abs(currVal - this.problem.targetNum);
@@ -60,7 +62,7 @@ public static final int MUTATION_PROBABILITY = 50;
 	}
 
 	private boolean fit(Population population) {
-		for(int i = 0; i < population.size; i++){
+		for(int i = 0; i < population.initialSize; i++){
 			if(Math.abs(evaluateState(population.individualSet.get(i)) - this.problem.targetNum) < 5){
 				return true;
 			}
@@ -87,7 +89,7 @@ public static final int MUTATION_PROBABILITY = 50;
 
 	private Individual randomSelection(Population population) {
 		Random rand = new Random();
-		int selectIndex = rand.nextInt(population.size);
+		int selectIndex = rand.nextInt(population.initialSize);
 		return population.individualSet.get(selectIndex);
 	}
 
@@ -97,6 +99,20 @@ public static final int MUTATION_PROBABILITY = 50;
 			result += individual.digits[i];
 		}
 		return result;
+	}
+
+	public void printBestIndividual(){
+		if(this.bestIndividual == null){
+			return;
+		}
+		for(int i = 0; i < Individual.MAX_DIGITS_LENGTH; i++){
+			int actionIndex = this.bestIndividual.digits[i];
+			if(actionIndex > 0){
+				System.out.println(this.problem.actions.get(actionIndex).printOperation());
+			}
+		}
+		
+		System.out.println(evaluateState(this.bestIndividual));
 	}
 
 }
