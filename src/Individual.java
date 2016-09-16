@@ -24,8 +24,18 @@ public class Individual {
 		return rand.nextInt(bound);
 	}
 	
-	public void print(){
-		System.out.println(digits);
+	public void print(double startingNum){
+		String digitString = "";
+		for(int i = 0; i < MAX_DIGITS_LENGTH; i++){
+			digitString = digitString.concat(Integer.toString(digits[i]));
+		}
+		System.out.println(digitString + Double.toString(evaluateState(startingNum)));
 	}
-	
+	public double evaluateState(double startingNum){
+		double result = startingNum;
+		for(int i = 0; i < Individual.MAX_DIGITS_LENGTH; i++){
+			result += this.digits[i];
+		}
+		return result;
+	}
 }

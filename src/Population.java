@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 public class Population{
@@ -30,6 +31,14 @@ public class Population{
 	
 	public int getCurrentSize(){
 		return this.individualSet.size();
+	}
+	
+	public void print(double startingNum){
+		Iterator<Individual> individualItr = this.individualSet.iterator();
+		while(individualItr.hasNext()){
+			Individual currIndividual = individualItr.next();
+			currIndividual.print(startingNum);
+		}
 	}
 
 }

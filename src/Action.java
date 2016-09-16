@@ -45,6 +45,6 @@ public class Action {
 	 * @return the result of the operation
 	 */
 	public String printOperation(){
-		return operatorStr.concat(Double.toString(operationValue) );
+		return operatorStr.concat(" "+Double.toString(operationValue) );
 	}
 }

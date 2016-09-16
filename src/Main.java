@@ -34,11 +34,6 @@ public class Main {
 			System.out.println("Error reading input file: "+e.getMessage());
 		}
 
-		//print for testing purpose
-		//		printInputVariables(filePath, algorithmType, startingVal, targetVal, time);
-
-		//select different search method based on input file
-		//		Algorithm sm = null;
 		switch(algorithmType){
 		case "greedy":
 			GreedyBestFirstSearch sm = new GreedyBestFirstSearch(time, startingVal, targetVal, actions);
@@ -48,23 +43,12 @@ public class Main {
 			break;
 		case "genetic":
 			GeneticAlgorithm ga = new GeneticAlgorithm(time, startingVal, targetVal, actions);
-			ga.geneticSearch();		
+			ga.geneticAlgorithm();
+			System.out.println("");
 			ga.printBestIndividual();
+//			printGeneticSearchResult(ga);
 			break;
 		}
-		//		ItrDpStateNodeStack searchResult = sm.search();
-		//
-		//		System.out.println("search result is as follows");
-		//		switch (algorithmType) {
-		//			case "iterative":
-		//				searchResult.printList();
-		//				break;
-		//			case "greedy" :
-		//				searchResult.printReverseList();
-		//		}
-		//searchResult.printList();
-		//		printSearchResult(sm);
-
 	}
 
 	private static void printInputVariables(String filePath, String algorithmType, int startingVal, int targetVal, double time) {
@@ -81,5 +65,13 @@ public class Main {
 		System.out.println("Nodes expanded: " + sm.getNumOfNodesExpanded());
 		System.out.println("Search depth reached in this search: " + sm.getSearchDepth());
 		System.out.println("Time spent in this search: " + sm.getTimeSpent() + " ms");
+	}
+	
+	private static void printGeneticSearchResult(Algorithm sm){
+		System.out.println("Error: " + sm.error);
+		System.out.println("Size of organism: "+ sm.getNumberOfSteps());
+		System.out.println("Search required: " + sm.getNumOfNodesExpanded());
+		System.out.println("Population size: " + sm.getSearchDepth());
+		System.out.println("Number of generations: " + sm.getTimeSpent() + " ms");
 	}
 }

@@ -5,46 +5,48 @@ public class GeneticAlgorithm extends Algorithm {
 	public static final int CUT_POINT_INDEX = 3;
 	public static final int MUTATION_PROBABILITY = 50;
 	public Individual bestIndividual;
+	public Population population;
 
 	public GeneticAlgorithm(double time, double startingVal, double targetVal, List<Action> actions) {
 		super(time, startingVal, targetVal, actions);
 		this.bestIndividual = null;
+		this.population = new Population(this.problem.actions.size());
+		population.initialize();
+//		population.print(this.problem.startingNum);
 	}
 
 	@Override
 	public StateNodeList search() {
-
 		return null;
 	}
-	public void geneticSearch(){
-		Population population = new Population(this.problem.actions.size());
-		population.initialize();
-		this.bestIndividual = geneticAlgorithm(population);
-	}
 
-	public Individual geneticAlgorithm(Population population){
-		while(!fit(population) && population.getCurrentSize() > 1){
+	public void geneticAlgorithm(){
+		Population currPopulation = this.population;
+		while(!fit(currPopulation) && currPopulation.getCurrentSize() > 1){
 			Population new_population = new Population(this.problem.actions.size());
 			for(int i = 0; i < new_population.initialSize; i++){
-				Individual x = randomSelection(population);
-				Individual y = randomSelection(population);
+				Individual x = randomSelection(currPopulation);
+				Individual y = randomSelection(currPopulation);
 				Individual child = reproduce(x,y);
 				if(mutationHappens()){
 					child = mutate(child);
 				}
 				new_population.add(child);
 			}
-			population = new_population;
+			currPopulation = new_population;
 		}
-		return findBest(population);
+		this.population = currPopulation;
+		this.bestIndividual =  findBest(currPopulation);
+		this.bestIndividual.print(this.problem.startingNum);
 	}
 
 	private Individual findBest(Population population) {
-		double bestVal = 999;
+		population.print(this.problem.startingNum);
+		double bestVal = 999.0;
 		Individual bestIndividual = null;
-		for(int i = 0; i < population.initialSize; i++){
+		for(int i = 0; i < population.individualSet.size(); i++){
 			Individual currIndividual = population.individualSet.get(i);
-			double currVal = evaluateState(currIndividual);
+			double currVal = currIndividual.evaluateState(this.problem.startingNum);
 			double difference = Math.abs(currVal - this.problem.targetNum);
 			if(difference < bestVal){
 				bestVal = currVal;
@@ -61,9 +63,9 @@ public class GeneticAlgorithm extends Algorithm {
 		return child;
 	}
 
-	private boolean fit(Population population) {
-		for(int i = 0; i < population.initialSize; i++){
-			if(Math.abs(evaluateState(population.individualSet.get(i)) - this.problem.targetNum) < 5){
+	private boolean fit(Population ppl) {
+		for(int i = 0; i < ppl.initialSize; i++){
+			if(Math.abs(ppl.individualSet.get(i).evaluateState(this.problem.startingNum) - this.problem.targetNum) < 5){
 				return true;
 			}
 		}
@@ -87,32 +89,26 @@ public class GeneticAlgorithm extends Algorithm {
 		return randNum < MUTATION_PROBABILITY;
 	}
 
-	private Individual randomSelection(Population population) {
+	private Individual randomSelection(Population ppl) {
 		Random rand = new Random();
-		int selectIndex = rand.nextInt(population.initialSize);
-		return population.individualSet.get(selectIndex);
-	}
-
-	public double evaluateState(Individual individual){
-		double result = this.problem.startingNum;
-		for(int i = 0; i < Individual.MAX_DIGITS_LENGTH; i++){
-			result += individual.digits[i];
-		}
-		return result;
+		int selectIndex = rand.nextInt(ppl.initialSize);
+		return ppl.individualSet.get(selectIndex);
 	}
 
 	public void printBestIndividual(){
 		if(this.bestIndividual == null){
 			return;
 		}
+		double result = this.problem.startingNum;
 		for(int i = 0; i < Individual.MAX_DIGITS_LENGTH; i++){
 			int actionIndex = this.bestIndividual.digits[i];
 			if(actionIndex > 0){
-				System.out.println(this.problem.actions.get(actionIndex).printOperation());
+				Action currAction = this.problem.actions.get(actionIndex);
+				result = currAction.getOperationResult(result);
+				System.out.println(result + " " + currAction.printOperation() + " = "+result);
 			}
 		}
-		
-		System.out.println(evaluateState(this.bestIndividual));
+		this.error = Math.abs(result - this.problem.startingNum);
 	}
 
 }
