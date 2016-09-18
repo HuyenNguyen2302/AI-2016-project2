@@ -7,16 +7,29 @@ public class Population{
 	
 	ArrayList<Individual> individualSet;
 	int numOfAvailableActions;
-	int initialSize;
+	int initialSize = 5;
 	
 	public Population(int numOfAvailableActions){
 		this.numOfAvailableActions = numOfAvailableActions;
 		
 		Random rand = new Random(); 
-		this.initialSize = rand.nextInt(MAX_POPULATION_SIZE)+1; 
+//		this.initialSize = rand.nextInt(MAX_POPULATION_SIZE)+1;
+		this.initialSize = 5;
 		individualSet = new ArrayList<Individual>(this.initialSize);
 	}
-	
+
+	public int getInitialSize() {
+		return this.initialSize;
+	}
+
+	public int getCurrentSize(){
+		return this.individualSet.size();
+	}
+
+	public ArrayList<Individual> getIndividualSet() {
+		return this.individualSet;
+	}
+
 	public void initialize(){
 		for(int i = 0; i < this.initialSize; i++){
 			Individual temp_individual = new Individual();
@@ -28,10 +41,11 @@ public class Population{
 	public void add(Individual child) {
 		this.individualSet.add(child);	
 	}
-	
-	public int getCurrentSize(){
-		return this.individualSet.size();
+
+	public void kill(Individual individual) {
+		this.individualSet.remove(individual);
 	}
+
 	
 	public void print(double startingNum){
 		Iterator<Individual> individualItr = this.individualSet.iterator();

@@ -19,6 +19,10 @@ public class Action {
 		this.operationValue = Integer.parseInt(str[1]);
 	}
 
+	public double getOperationValue() {
+		return this.operationValue;
+	}
+
 	/**
 	 * given a input number, calculate the result of executing the operation stored in this current node
 	 * @param d the input number
@@ -44,7 +48,7 @@ public class Action {
 	 * @param d the input number
 	 * @return the result of the operation
 	 */
-	public String printOperation(){
+	public String printOperation() {
 		return operatorStr.concat(" "+Double.toString(operationValue) );
 	}
 }
