@@ -3,18 +3,19 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class Population{
-	public static final int MAX_POPULATION_SIZE = 10;
+	public static final int POPULATION_SIZE = 5;
+
 	
 	ArrayList<Individual> individualSet;
 	int numOfAvailableActions;
-	int initialSize = 5;
+	int initialSize;
 	
 	public Population(int numOfAvailableActions){
 		this.numOfAvailableActions = numOfAvailableActions;
 		
 		Random rand = new Random(); 
 //		this.initialSize = rand.nextInt(MAX_POPULATION_SIZE)+1;
-		this.initialSize = 5;
+		this.initialSize = POPULATION_SIZE;
 		individualSet = new ArrayList<Individual>(this.initialSize);
 	}
 
