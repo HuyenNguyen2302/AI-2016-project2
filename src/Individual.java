@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class Individual implements Comparable<Individual> {
@@ -40,12 +41,13 @@ public class Individual implements Comparable<Individual> {
 		for(int i = 0; i < MAX_DIGITS_LENGTH; i++){
 			digitString = digitString.concat(Integer.toString(digits[i]));
 		}
-		System.out.println(digitString + " = " + Double.toString(evaluateState(startingNum)));
+		//System.out.println(digitString + " = " + Double.toString(evaluateState(startingNum)));
 	}
-	public double evaluateState(double startingNum){
+
+	public double evaluateState(double startingNum, List<Action> actions){
 		double result = startingNum;
 		for(int i = 0; i < Individual.MAX_DIGITS_LENGTH; i++){
-			result += this.digits[i];
+			result = actions.get(this.digits[i]).getOperationResult(result);
 		}
 		return result;
 	}

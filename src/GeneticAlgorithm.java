@@ -1,13 +1,13 @@
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public class GeneticAlgorithm extends Algorithm {
 	public static final int CUT_POINT_INDEX = 3;
-	public static final int MUTATION_PROBABILITY = 50;
-	public static final int CULLING_PERCENTAGE = 80; // the percentage of the population to be kept based on fitness score
-	public static final double MAX_ERROR = 2;
+	public static final int MUTATION_PROBABILITY = 30;
+	public static final int CULLING_PERCENTAGE = 40; // the percentage of the population to be kept based on fitness score
+	public static final double MAX_ERROR = 2000;
+
 	public Individual bestIndividual;
 	public Population population;
 
@@ -34,7 +34,9 @@ public class GeneticAlgorithm extends Algorithm {
 		}
 
 		long startTimer = System.currentTimeMillis();
-		while (!fit(currPopulation) && (System.currentTimeMillis() - startTimer) > this.timeLimit) {
+		while  ((System.currentTimeMillis() - startTimer) < this.timeLimit) {
+		//for (int x = 0;x < 10;x++){
+
 			currPopulation = fitnessCalc(currPopulation);
 			currPopulation = chooseBestIndividuals(currPopulation);
 			int coupleNum = (int) Math.floor(currPopulation.getIndividualSet().size() / 2);
@@ -42,7 +44,7 @@ public class GeneticAlgorithm extends Algorithm {
 				currPopulation = reproduce(currPopulation);
 			}
 			currPopulation = addRandomIndividuals(currPopulation);
-			System.out.println("CUREENT SIZE = " + currPopulation.getIndividualSet().size());
+			System.out.println("CURRENT SIZE = " + currPopulation.getIndividualSet().size());
 			currPopulation = mutate(currPopulation);
 
 			// DEBUG
@@ -54,16 +56,15 @@ public class GeneticAlgorithm extends Algorithm {
 		this.population = currPopulation;
 		this.bestIndividual = findBest(currPopulation);
 //		this.bestIndividual.print(this.problem.startingNum);
-
 	}
 
 	private Individual findBest(Population population) {
 		population.print(this.problem.startingNum);
-		double bestVal = 999.0;
+		double bestVal = Double.MAX_VALUE;
 		Individual bestIndividual = null;
 		for(int i = 0; i < population.individualSet.size(); i++){
 			Individual currIndividual = population.individualSet.get(i);
-			double currVal = currIndividual.evaluateState(this.problem.startingNum);
+			double currVal = currIndividual.evaluateState(this.problem.startingNum,this.problem.actions);
 			double difference = Math.abs(currVal - this.problem.targetNum);
 
 			if(difference < bestVal){
@@ -89,14 +90,16 @@ public class GeneticAlgorithm extends Algorithm {
 		return population;
 	}
 
+
 	private boolean fit(Population ppl) {
 		for(int i = 0; i < ppl.getIndividualSet().size(); i++){
-			if(Math.abs(ppl.individualSet.get(i).evaluateState(this.problem.startingNum) - this.problem.targetNum) < MAX_ERROR){
+			if(Math.abs(ppl.individualSet.get(i).evaluateState(this.problem.startingNum,this.problem.actions) - this.problem.targetNum) < MAX_ERROR){
 				return true;
 			}
 		}
 		return false;
-	}
+	 }
+
 
 	/*
 	 * Create all the children...
@@ -112,8 +115,8 @@ public class GeneticAlgorithm extends Algorithm {
 		Individual x = randomSelection(population);
 		Individual y = randomSelection(population);
 
-		System.out.println("x = " + x);
-		System.out.println("y = " + y);
+		//System.out.println("x = " + x);
+		//System.out.println("y = " + y);
 
 		// create new_child_1
 		for (int i = 0; i < CUT_POINT_INDEX; i++){
@@ -173,7 +176,7 @@ public class GeneticAlgorithm extends Algorithm {
 	private Population fitnessCalc(Population population) {
 		for(int i = 0; i < population.individualSet.size(); i++){
 			Individual currIndividual = population.individualSet.get(i);
-			double currVal = currIndividual.evaluateState(this.problem.startingNum);
+			double currVal = currIndividual.evaluateState(this.problem.startingNum,this.problem.actions);
 			int fitnessScore = (int) Math.round(Math.abs(currVal - this.problem.targetNum));
 			population.individualSet.get(i).setFitnessScore(fitnessScore);
 		}

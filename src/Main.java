@@ -44,9 +44,9 @@ public class Main {
 		case "genetic":
 			GeneticAlgorithm ga = new GeneticAlgorithm(time, startingVal, targetVal, actions);
 			ga.geneticAlgorithm();
-			System.out.println("");
+			//System.out.println("!!!");
 			ga.printBestIndividual();
-//			printGeneticSearchResult(ga);
+			//printGeneticSearchResult(ga);
 			break;
 		}
 	}
@@ -61,10 +61,10 @@ public class Main {
 
 	private static void printSearchResult(Algorithm sm){
 		System.out.println("Error: " + sm.error);
-		System.out.println("Number of steps required: "+ sm.getNumberOfSteps());
-		System.out.println("Nodes expanded: " + sm.getNumOfNodesExpanded());
-		System.out.println("Search depth reached in this search: " + sm.getSearchDepth());
-		System.out.println("Time spent in this search: " + sm.getTimeSpent() + " ms");
+	//  System.out.println("Number of steps required: "+ sm.getNumberOfSteps());
+	//	System.out.println("Nodes expanded: " + sm.getNumOfNodesExpanded());
+ 	// 	System.out.println("Search depth reached in this search: " + sm.getSearchDepth());
+	//	System.out.println("Time spent in this search: " + sm.getTimeSpent() + " ms");
 	}
 	
 	private static void printGeneticSearchResult(Algorithm sm){
