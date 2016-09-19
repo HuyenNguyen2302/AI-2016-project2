@@ -25,7 +25,7 @@ public class GeneticAlgorithm extends Algorithm {
 	}
 
 	public void geneticAlgorithm() {
-
+		System.out.println("time = " + this.timeLimit);
 		Population currPopulation = this.population;
 		int populationSize = this.population.getInitialSize();
 		System.out.println("INITIAL POPULATION");
@@ -33,7 +33,8 @@ public class GeneticAlgorithm extends Algorithm {
 			System.out.println(population.getIndividualSet().get(i));
 		}
 
-		while (!fit(currPopulation)) {
+		long startTimer = System.currentTimeMillis();
+		while (!fit(currPopulation) && (System.currentTimeMillis() - startTimer) > this.timeLimit) {
 			currPopulation = fitnessCalc(currPopulation);
 			currPopulation = chooseBestIndividuals(currPopulation);
 			int coupleNum = (int) Math.floor(currPopulation.getIndividualSet().size() / 2);
