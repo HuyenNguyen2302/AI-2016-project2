@@ -70,7 +70,7 @@ public class Main {
 	private static void printGeneticSearchResult(Algorithm sm){
 		System.out.println("Error: " + sm.error);
 		System.out.println("Size of organism: "+ Individual.MAX_DIGITS_LENGTH);
-		System.out.println("Search required: " + sm.duration + " ms");
+		System.out.println("Search required: " + sm.duration / 1000 + " s");
 		System.out.println("Population size: " + Population.POPULATION_SIZE);
 		System.out.println("Number of generations: " + sm.generationNum);
 	}

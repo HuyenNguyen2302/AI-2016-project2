@@ -168,7 +168,7 @@ public class GeneticAlgorithm extends Algorithm {
 			if(actionIndex > 0){
 				Action currAction = this.problem.actions.get(actionIndex);
 				sum = currAction.getOperationResult(startingNum);
-//				System.out.println(startingNum + " " + currAction.printOperation() + " = "+ sum);
+				System.out.println(startingNum + " " + currAction.printOperation() + " = "+ sum);
 				startingNum = sum;
 			}
 		}
