@@ -25,18 +25,18 @@ public class GeneticAlgorithm extends Algorithm {
 	}
 
 	public void geneticAlgorithm() {
-		System.out.println("time = " + this.timeLimit);
+//		System.out.println("time = " + this.timeLimit);
 		Population currPopulation = this.population;
 		int populationSize = this.population.getInitialSize();
-		System.out.println("INITIAL POPULATION");
-		for (int i = 0; i < populationSize; i++) {
-			System.out.println(population.getIndividualSet().get(i));
-		}
+//		System.out.println("INITIAL POPULATION");
+//		for (int i = 0; i < populationSize; i++) {
+//			System.out.println(population.getIndividualSet().get(i));
+//		}
 
 		long startTimer = System.currentTimeMillis();
 		while  ((System.currentTimeMillis() - startTimer) < this.timeLimit) {
 		//for (int x = 0;x < 10;x++){
-
+			this.generationNum++;
 			currPopulation = fitnessCalc(currPopulation);
 			currPopulation = chooseBestIndividuals(currPopulation);
 			int coupleNum = (int) Math.floor(currPopulation.getIndividualSet().size() / 2);
@@ -44,15 +44,17 @@ public class GeneticAlgorithm extends Algorithm {
 				currPopulation = reproduce(currPopulation);
 			}
 			currPopulation = addRandomIndividuals(currPopulation);
-			System.out.println("CURRENT SIZE = " + currPopulation.getIndividualSet().size());
+//			System.out.println("CURRENT SIZE = " + currPopulation.getIndividualSet().size());
 			currPopulation = mutate(currPopulation);
 
 			// DEBUG
-			System.out.println("NEW POPULATION");
-			for (int i = 0; i < populationSize; i++) {
-				System.out.println(population.getIndividualSet().get(i));
-			}
+//			System.out.println("NEW POPULATION");
+//			for (int i = 0; i < populationSize; i++) {
+//				System.out.println(population.getIndividualSet().get(i));
+//			}
 		}
+		long endTimer = System.currentTimeMillis();
+		this.duration = endTimer - startTimer;
 		this.population = currPopulation;
 		this.bestIndividual = findBest(currPopulation);
 //		this.bestIndividual.print(this.problem.startingNum);
@@ -166,11 +168,11 @@ public class GeneticAlgorithm extends Algorithm {
 			if(actionIndex > 0){
 				Action currAction = this.problem.actions.get(actionIndex);
 				sum = currAction.getOperationResult(startingNum);
-				System.out.println(startingNum + " " + currAction.printOperation() + " = "+ sum);
+//				System.out.println(startingNum + " " + currAction.printOperation() + " = "+ sum);
 				startingNum = sum;
 			}
 		}
-		this.error = Math.abs(sum - this.problem.startingNum);
+		this.error = Math.abs(sum - this.problem.targetNum);
 	}
 
 	private Population fitnessCalc(Population population) {
@@ -186,7 +188,7 @@ public class GeneticAlgorithm extends Algorithm {
 	private Population chooseBestIndividuals(Population population) {
 		Population newPopulation = new Population(population.getIndividualSet().size());
 		int newPopulationSize = Math.round(population.getIndividualSet().size() * CULLING_PERCENTAGE / 100);
-		System.out.println("new population size = " + newPopulationSize);
+//		System.out.println("new population size = " + newPopulationSize);
 
 		// sort the population based on fitness score
 		// the individual with the lowest fitness score (ie. its value is closest to the goal)
@@ -200,10 +202,10 @@ public class GeneticAlgorithm extends Algorithm {
 			newPopulation.add(currIndividual);
 		}
 
-		System.out.println("best individuals");
-		for (int i = 0; i < newPopulationSize; i++) {
-			System.out.println(newPopulation.getIndividualSet().get(i));
-		}
+//		System.out.println("best individuals");
+//		for (int i = 0; i < newPopulationSize; i++) {
+//			System.out.println(newPopulation.getIndividualSet().get(i));
+//		}
 
 		return newPopulation;
 	}

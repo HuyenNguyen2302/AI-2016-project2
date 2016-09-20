@@ -14,6 +14,8 @@ public abstract class Algorithm {
 	long timeSpent;
 	long currSearchTime;
 	int searchDepth;
+	double duration; // time taken to execute the algorithm
+	int generationNum; // number of generations
 	StateNodeList path;
 
 	public Algorithm(double time, double startingVal, double targetVal, List<Action> actions) {
@@ -24,6 +26,8 @@ public abstract class Algorithm {
 		this.searchDepth = 0;
 		this.currSearchTime = 0;
 		this.timeSpent = 0;
+		this.duration = 0;
+		this.generationNum = 1;
 	}
 
 	/**

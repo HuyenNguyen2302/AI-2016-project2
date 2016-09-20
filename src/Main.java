@@ -46,7 +46,7 @@ public class Main {
 			ga.geneticAlgorithm();
 			//System.out.println("!!!");
 			ga.printBestIndividual();
-			//printGeneticSearchResult(ga);
+			printGeneticSearchResult(ga);
 			break;
 		}
 	}
@@ -69,9 +69,9 @@ public class Main {
 	
 	private static void printGeneticSearchResult(Algorithm sm){
 		System.out.println("Error: " + sm.error);
-		System.out.println("Size of organism: "+ sm.getNumberOfSteps());
-		System.out.println("Search required: " + sm.getNumOfNodesExpanded());
-		System.out.println("Population size: " + sm.getSearchDepth());
-		System.out.println("Number of generations: " + sm.getTimeSpent() + " ms");
+		System.out.println("Size of organism: "+ Individual.MAX_DIGITS_LENGTH);
+		System.out.println("Search required: " + sm.duration + " ms");
+		System.out.println("Population size: " + Population.POPULATION_SIZE);
+		System.out.println("Number of generations: " + sm.generationNum);
 	}
 }

@@ -3,7 +3,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class Population{
-	public static final int POPULATION_SIZE = 100;
+	public static final int POPULATION_SIZE = 5;
 
 	
 	ArrayList<Individual> individualSet;

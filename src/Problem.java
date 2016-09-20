@@ -23,10 +23,12 @@ public class Problem {
 	 */
 	List<Action> actions;
 
+
 	public Problem(double startingVal, double targetVal, List<Action> actions){
 		this.startingNum = startingVal;
 		this.targetNum = targetVal;
 		this.actions = actions;
+
 	}
 
 	/**
